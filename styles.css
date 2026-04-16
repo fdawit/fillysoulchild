@@ -360,3 +360,40 @@ main,
   display: block;
   width: 100%;
 }
+
+.site-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text-soft);
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.social-link:hover,
+.social-link:focus-visible {
+  border-color: rgba(216, 199, 170, 0.35);
+  transform: translateY(-1px);
+}
+
+.social-icon-img {
+  width: 1rem;
+  height: 1rem;
+  object-fit: contain;
+  display: block;
+}
