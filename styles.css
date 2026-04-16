@@ -337,3 +337,26 @@ main,
   border-color: rgba(216, 199, 170, 0.4);
   color: var(--accent);
 }
+
+.playlist-panel {
+  width: clamp(320px, 72%, 900px);
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.listening-kicker {
+  margin: 0 0 0.85rem;
+  color: var(--text-faint);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.spotify-embed {
+  display: block;
+  width: 100%;
+}
