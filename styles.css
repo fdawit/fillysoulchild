@@ -247,3 +247,35 @@ main,
     grid-template-columns: 1fr;
   }
 }
+
+.essay-page {
+  width: min(760px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 5rem 0 6rem;
+}
+
+.essay-full h1 {
+  margin: 0 0 1rem;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  line-height: 0.95;
+  font-weight: 500;
+}
+
+.essay-full p {
+  margin: 0 0 1.3rem;
+  color: var(--text-soft);
+  font-size: 1.02rem;
+}
+
+.essay-back {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: var(--accent);
+}
+
+.essay-back:hover,
+.essay-back:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
