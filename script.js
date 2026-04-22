@@ -3,6 +3,7 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
 const lightboxCaption = document.getElementById("lightbox-caption");
 const lightboxClose = document.getElementById("lightbox-close");
+const diaryList = document.getElementById("diary-list");
 
 function openLightbox(src, alt, caption) {
   lightboxImage.src = src;
@@ -20,6 +21,42 @@ function closeLightbox() {
   lightboxImage.alt = "";
   lightboxCaption.textContent = "";
   document.body.style.overflow = "";
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => {
+    const map = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    };
+    return map[char];
+  });
+}
+
+function formatDiaryRating(rating) {
+  if (rating === null || rating === undefined || Number.isNaN(Number(rating))) {
+    return "No rating";
+  }
+
+  const fullStars = Math.floor(rating);
+  const halfStar = rating % 1 >= 0.5 ? "½" : "";
+  return "★".repeat(fullStars) + halfStar;
+}
+
+function formatDiaryDate(dateString) {
+  if (!dateString) {
+    return "";
+  }
+
+  const date = new Date(`${dateString}T00:00:00`);
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  }).format(date);
 }
 
 async function loadPhotos() {
@@ -68,89 +105,6 @@ async function loadPhotos() {
     gallery.innerHTML = "<p>There was a problem loading the photo archive.</p>";
     console.error(error);
   }
-}
-
-gallery.addEventListener("click", (event) => {
-  const card = event.target.closest(".photo-card");
-
-  if (!card) {
-    return;
-  }
-
-  openLightbox(
-    card.dataset.src,
-    card.dataset.alt,
-    card.dataset.caption
-  );
-});
-
-gallery.addEventListener("keydown", (event) => {
-  const card = event.target.closest(".photo-card");
-
-  if (!card) {
-    return;
-  }
-
-  if (event.key === "Enter" || event.key === " ") {
-    event.preventDefault();
-    openLightbox(
-      card.dataset.src,
-      card.dataset.alt,
-      card.dataset.caption
-    );
-  }
-});
-
-lightboxClose.addEventListener("click", closeLightbox);
-
-lightbox.addEventListener("click", (event) => {
-  if (event.target === lightbox) {
-    closeLightbox();
-  }
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && lightbox.classList.contains("is-open")) {
-    closeLightbox();
-  }
-});
-
-const diaryList = document.getElementById("diary-list");
-
-function escapeHtml(value) {
-  return String(value).replace(/[&<>"']/g, (char) => {
-    const map = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    };
-    return map[char];
-  });
-}
-
-function formatDiaryRating(rating) {
-  if (rating === null || rating === undefined || Number.isNaN(Number(rating))) {
-    return "No rating";
-  }
-
-  const fullStars = Math.floor(rating);
-  const halfStar = rating % 1 >= 0.5 ? "½" : "";
-  return "★".repeat(fullStars) + halfStar;
-}
-
-function formatDiaryDate(dateString) {
-  if (!dateString) {
-    return "";
-  }
-
-  const date = new Date(`${dateString}T00:00:00`);
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric"
-  }).format(date);
 }
 
 async function loadDiary() {
@@ -231,6 +185,51 @@ async function loadDiary() {
     console.error(error);
   }
 }
+
+gallery.addEventListener("click", (event) => {
+  const card = event.target.closest(".photo-card");
+
+  if (!card) {
+    return;
+  }
+
+  openLightbox(
+    card.dataset.src,
+    card.dataset.alt,
+    card.dataset.caption
+  );
+});
+
+gallery.addEventListener("keydown", (event) => {
+  const card = event.target.closest(".photo-card");
+
+  if (!card) {
+    return;
+  }
+
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    openLightbox(
+      card.dataset.src,
+      card.dataset.alt,
+      card.dataset.caption
+    );
+  }
+});
+
+lightboxClose.addEventListener("click", closeLightbox);
+
+lightbox.addEventListener("click", (event) => {
+  if (event.target === lightbox) {
+    closeLightbox();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && lightbox.classList.contains("is-open")) {
+    closeLightbox();
+  }
+});
 
 loadPhotos();
 loadDiary();
